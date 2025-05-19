@@ -14,16 +14,16 @@ enum Roles {
 }
 
 model Users {
-  id                String             @id @default(uuid()) @db.Uuid
-  username          String             @unique @db.VarChar(50)
-  email             String             @db.VarChar(100)
+  id                String              @id @default(uuid()) @db.Uuid
+  username          String              @unique @db.VarChar(50)
+  email             String              @db.VarChar(100)
   password_hash     String
-  role              Roles              @default(user)
-  Profiles          Profiles?
-  UserSubscriptions UserSubscriptions?
-  Favorites         Favorites?
-  Reviews           Reviews?
-  Watch_history     Watch_history?
+  role              Roles               @default(user)
+  Profiles          Profiles[]
+  UserSubscriptions UserSubscriptions[]
+  Favorites         Favorites[]
+  Reviews           Reviews[]
+  Watch_history     Watch_history[]
 
   @@map("users")
 }
@@ -41,13 +41,13 @@ model Profiles {
 }
 
 model SubscriptionPlan {
-  id                String             @id @default(uuid()) @db.Uuid
-  name              String             @db.VarChar(50)
-  price             Decimal            @db.Decimal(10, 2)
+  id                String              @id @default(uuid()) @db.Uuid
+  name              String              @db.VarChar(50)
+  price             Decimal             @db.Decimal(10, 2)
   duration_days     Int
   features          Json
-  is_active         Boolean            @default(true)
-  UserSubscriptions UserSubscriptions?
+  is_active         Boolean             @default(true)
+  UserSubscriptions UserSubscriptions[]
 
   @@map("subscriptionplan")
 }
@@ -70,7 +70,7 @@ model UserSubscriptions {
   created_at DateTime         @default(now())
   plan       SubscriptionPlan @relation(fields: [plan_id], references: [id])
   user       Users            @relation(fields: [user_id], references: [id])
-  Payments   Payments?
+  Payments   Payments[]
 
   @@map("usersubscriptions")
 }
@@ -104,11 +104,11 @@ model Payments {
 }
 
 model Categories {
-  id               String            @id @default(uuid()) @db.Uuid
-  name             String            @db.VarChar(50)
-  slug             String            @unique @db.VarChar(50)
+  id               String             @id @default(uuid()) @db.Uuid
+  name             String             @db.VarChar(50)
+  slug             String             @unique @db.VarChar(50)
   description      String
-  Movie_categories Movie_categories?
+  Movie_categories Movie_categories[]
 
   @@map("categories")
 }
@@ -131,10 +131,10 @@ model Movies {
   view_count        Int                @default(0)
   created_by        String             @unique
   created_at        DateTime           @default(now())
-  Movie_categories  Movie_categories?
-  Favorites         Favorites?
-  Reviews           Reviews?
-  Watch_history     Watch_history?
+  Movie_categories  Movie_categories[]
+  Favorites         Favorites[]
+  Reviews           Reviews[]
+  Watch_history     Watch_history[]
 
   @@map("movies")
 }
