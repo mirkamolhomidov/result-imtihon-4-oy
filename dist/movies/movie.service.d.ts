@@ -1,14 +1,36 @@
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateMovieDto, UpdateMovieDto } from './dto/movie.dto';
+import { CreateMovieDto, CreateMovieFileDto, FilterMoviesDto, UpdateMovieDto } from './dto/movie.dto';
 export declare class MovieService {
     private prisma;
     constructor(prisma: PrismaService);
-    getMovies(): Promise<{
+    getAll({ category, limit, page, search, subscription_type, }: FilterMoviesDto): Promise<{
+        success: boolean;
+        data: {
+            movies: {
+                id: string;
+                title: string;
+                slug: string;
+                poster_url: string;
+                release_year: number;
+                rating: import("@prisma/client/runtime/library").Decimal;
+                subscription_type: string;
+                categories: string[];
+            }[];
+            pagination: {
+                total: number;
+                page1: number;
+                limit1: number;
+                pages: number;
+            };
+        };
+    }>;
+    getMoviesAdmin(): Promise<{
         movies: {
             id: string;
-            title: string;
-            slug: string;
+            created_at: Date;
             description: string;
+            slug: string;
+            title: string;
             release_year: number;
             duration_minutes: number;
             poster_url: string;
@@ -16,7 +38,6 @@ export declare class MovieService {
             subscription_type: import(".prisma/client").$Enums.Subscription_types;
             view_count: number;
             created_by: string;
-            created_at: Date;
         }[];
         total: number;
     }>;
@@ -26,14 +47,15 @@ export declare class MovieService {
         data: {
             Movie_categories: {
                 id: string;
-                category_id: string;
                 movie_id: string;
+                category_id: string;
             }[];
         } & {
             id: string;
-            title: string;
-            slug: string;
+            created_at: Date;
             description: string;
+            slug: string;
+            title: string;
             release_year: number;
             duration_minutes: number;
             poster_url: string;
@@ -41,7 +63,17 @@ export declare class MovieService {
             subscription_type: import(".prisma/client").$Enums.Subscription_types;
             view_count: number;
             created_by: string;
-            created_at: Date;
+        };
+    }>;
+    addMovieFile(movieId: string, fileName: string, dto: CreateMovieFileDto): Promise<{
+        success: boolean;
+        data: {
+            id: string;
+            movie_id: string;
+            quality: import(".prisma/client").$Enums.MovieQuality;
+            language: string;
+            file_url: string;
+            moviesId: string | null;
         };
     }>;
     updateMovie(updateMovieDto: UpdateMovieDto, id: string): Promise<{
@@ -49,14 +81,15 @@ export declare class MovieService {
         data: {
             Movie_categories: {
                 id: string;
-                category_id: string;
                 movie_id: string;
+                category_id: string;
             }[];
         } & {
             id: string;
-            title: string;
-            slug: string;
+            created_at: Date;
             description: string;
+            slug: string;
+            title: string;
             release_year: number;
             duration_minutes: number;
             poster_url: string;
@@ -64,7 +97,6 @@ export declare class MovieService {
             subscription_type: import(".prisma/client").$Enums.Subscription_types;
             view_count: number;
             created_by: string;
-            created_at: Date;
         };
     }>;
     deleteMovie(id: string): Promise<void>;

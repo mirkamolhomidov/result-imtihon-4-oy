@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Post,
   Put,
   Req,
@@ -13,9 +14,14 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { extname } from 'path';
 import { JwtAuthGuard } from 'src/common/guards/auth.guard';
 import { v4 as uuid } from 'uuid';
-import { CreateMovieDto, UpdateMovieDto } from './dto/movie.dto';
+import {
+  CreateMovieDto,
+  CreateMovieFileDto,
+  UpdateMovieDto,
+} from './dto/movie.dto';
 import { MovieService } from './movie.service';
 
 @UseGuards(JwtAuthGuard)
@@ -24,7 +30,7 @@ export class MovieAdminController {
   constructor(private movieService: MovieService) {}
   @Get()
   async getMovies() {
-    const data = await this.movieService.getMovies();
+    const data = await this.movieService.getMoviesAdmin();
     return { success: true, data };
   }
   @Post()
@@ -51,6 +57,27 @@ export class MovieAdminController {
       poster.filename,
       createMovieDto.category_ids,
     );
+  }
+
+  @Post(':movie_id/files')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './uploads/movies',
+        filename: (req, file, cb) => {
+          const ext = extname(file.originalname);
+          const name = `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
+          cb(null, name);
+        },
+      }),
+    }),
+  )
+  async uploadMovieFile(
+    @Param('movie_id', new ParseUUIDPipe()) movie_id: string,
+    @UploadedFile() file: Express.Multer.File,
+    @Body() body: CreateMovieFileDto,
+  ) {
+    return this.movieService.addMovieFile(movie_id, file.filename, body);
   }
   @Put('/:id')
   async updateMovieController(

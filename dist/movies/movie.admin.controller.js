@@ -16,6 +16,7 @@ exports.MovieAdminController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const multer_1 = require("multer");
+const path_1 = require("path");
 const auth_guard_1 = require("../common/guards/auth.guard");
 const uuid_1 = require("uuid");
 const movie_dto_1 = require("./dto/movie.dto");
@@ -26,11 +27,14 @@ let MovieAdminController = class MovieAdminController {
         this.movieService = movieService;
     }
     async getMovies() {
-        const data = await this.movieService.getMovies();
+        const data = await this.movieService.getMoviesAdmin();
         return { success: true, data };
     }
     async createMovieController(req, poster, createMovieDto) {
         return await this.movieService.createMovie(createMovieDto, req.user.user_id, poster.filename, createMovieDto.category_ids);
+    }
+    async uploadMovieFile(movie_id, file, body) {
+        return this.movieService.addMovieFile(movie_id, file.filename, body);
     }
     async updateMovieController(id, updateMovieDto) {
         return await this.movieService.updateMovie(updateMovieDto, id);
@@ -66,6 +70,25 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, movie_dto_1.CreateMovieDto]),
     __metadata("design:returntype", Promise)
 ], MovieAdminController.prototype, "createMovieController", null);
+__decorate([
+    (0, common_1.Post)(':movie_id/files'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
+        storage: (0, multer_1.diskStorage)({
+            destination: './uploads/movies',
+            filename: (req, file, cb) => {
+                const ext = (0, path_1.extname)(file.originalname);
+                const name = `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
+                cb(null, name);
+            },
+        }),
+    })),
+    __param(0, (0, common_1.Param)('movie_id', new common_1.ParseUUIDPipe())),
+    __param(1, (0, common_1.UploadedFile)()),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, movie_dto_1.CreateMovieFileDto]),
+    __metadata("design:returntype", Promise)
+], MovieAdminController.prototype, "uploadMovieFile", null);
 __decorate([
     (0, common_1.Put)('/:id'),
     __param(0, (0, common_1.Param)('id')),

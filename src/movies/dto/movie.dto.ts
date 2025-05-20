@@ -1,9 +1,10 @@
-import { Subscription_types } from '@prisma/client';
+import { MovieQuality, Subscription_types } from '@prisma/client';
 import {
   IsArray,
   IsEnum,
   IsNotEmpty,
   IsNumberString,
+  IsOptional,
   IsString,
 } from 'class-validator';
 export class CreateMovieDto {
@@ -40,4 +41,39 @@ export class UpdateMovieDto {
   @IsArray()
   @IsNotEmpty()
   category_ids: string[];
+}
+
+export enum SubscriptionType {
+  FREE = 'free',
+  PREMIUM = 'premium',
+}
+
+export class FilterMoviesDto {
+  @IsOptional()
+  @IsNumberString()
+  page?: string;
+
+  @IsOptional()
+  @IsNumberString()
+  limit?: string;
+
+  @IsOptional()
+  @IsString()
+  search?: string;
+
+  @IsOptional()
+  @IsString()
+  category?: string;
+
+  @IsOptional()
+  @IsEnum(SubscriptionType)
+  subscription_type?: SubscriptionType;
+}
+export class CreateMovieFileDto {
+  @IsEnum(MovieQuality)
+  quality: MovieQuality;
+
+  @IsString()
+  @IsNotEmpty()
+  language: string;
 }

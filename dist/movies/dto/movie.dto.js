@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateMovieDto = exports.CreateMovieDto = void 0;
+exports.CreateMovieFileDto = exports.FilterMoviesDto = exports.SubscriptionType = exports.UpdateMovieDto = exports.CreateMovieDto = void 0;
 const client_1 = require("@prisma/client");
 const class_validator_1 = require("class-validator");
 class CreateMovieDto {
@@ -74,4 +74,56 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", Array)
 ], UpdateMovieDto.prototype, "category_ids", void 0);
+var SubscriptionType;
+(function (SubscriptionType) {
+    SubscriptionType["FREE"] = "free";
+    SubscriptionType["PREMIUM"] = "premium";
+})(SubscriptionType || (exports.SubscriptionType = SubscriptionType = {}));
+class FilterMoviesDto {
+    page;
+    limit;
+    search;
+    category;
+    subscription_type;
+}
+exports.FilterMoviesDto = FilterMoviesDto;
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumberString)(),
+    __metadata("design:type", String)
+], FilterMoviesDto.prototype, "page", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumberString)(),
+    __metadata("design:type", String)
+], FilterMoviesDto.prototype, "limit", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], FilterMoviesDto.prototype, "search", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], FilterMoviesDto.prototype, "category", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(SubscriptionType),
+    __metadata("design:type", String)
+], FilterMoviesDto.prototype, "subscription_type", void 0);
+class CreateMovieFileDto {
+    quality;
+    language;
+}
+exports.CreateMovieFileDto = CreateMovieFileDto;
+__decorate([
+    (0, class_validator_1.IsEnum)(client_1.MovieQuality),
+    __metadata("design:type", String)
+], CreateMovieFileDto.prototype, "quality", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], CreateMovieFileDto.prototype, "language", void 0);
 //# sourceMappingURL=movie.dto.js.map

@@ -6,6 +6,7 @@ import { FavoritesModule } from './favorites/favorites.module';
 import { MovieModel } from './movies/movie.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ProfileModule } from './profile/profile.module';
+import { ReviewModule } from './review/review.module';
 import { SubscriptionModule } from './subscription/subscription.module';
 
 @Module({
@@ -20,6 +21,7 @@ import { SubscriptionModule } from './subscription/subscription.module';
     CategoryModule,
     MovieModel,
     FavoritesModule,
+    ReviewModule,
   ],
 })
 export class AppModule {}

@@ -1,4 +1,4 @@
-import { CreateMovieDto, UpdateMovieDto } from './dto/movie.dto';
+import { CreateMovieDto, CreateMovieFileDto, UpdateMovieDto } from './dto/movie.dto';
 import { MovieService } from './movie.service';
 export declare class MovieAdminController {
     private movieService;
@@ -8,9 +8,10 @@ export declare class MovieAdminController {
         data: {
             movies: {
                 id: string;
-                title: string;
-                slug: string;
+                created_at: Date;
                 description: string;
+                slug: string;
+                title: string;
                 release_year: number;
                 duration_minutes: number;
                 poster_url: string;
@@ -18,7 +19,6 @@ export declare class MovieAdminController {
                 subscription_type: import(".prisma/client").$Enums.Subscription_types;
                 view_count: number;
                 created_by: string;
-                created_at: Date;
             }[];
             total: number;
         };
@@ -28,14 +28,15 @@ export declare class MovieAdminController {
         data: {
             Movie_categories: {
                 id: string;
-                category_id: string;
                 movie_id: string;
+                category_id: string;
             }[];
         } & {
             id: string;
-            title: string;
-            slug: string;
+            created_at: Date;
             description: string;
+            slug: string;
+            title: string;
             release_year: number;
             duration_minutes: number;
             poster_url: string;
@@ -43,7 +44,17 @@ export declare class MovieAdminController {
             subscription_type: import(".prisma/client").$Enums.Subscription_types;
             view_count: number;
             created_by: string;
-            created_at: Date;
+        };
+    }>;
+    uploadMovieFile(movie_id: string, file: Express.Multer.File, body: CreateMovieFileDto): Promise<{
+        success: boolean;
+        data: {
+            id: string;
+            movie_id: string;
+            quality: import(".prisma/client").$Enums.MovieQuality;
+            language: string;
+            file_url: string;
+            moviesId: string | null;
         };
     }>;
     updateMovieController(id: string, updateMovieDto: UpdateMovieDto): Promise<{
@@ -51,14 +62,15 @@ export declare class MovieAdminController {
         data: {
             Movie_categories: {
                 id: string;
-                category_id: string;
                 movie_id: string;
+                category_id: string;
             }[];
         } & {
             id: string;
-            title: string;
-            slug: string;
+            created_at: Date;
             description: string;
+            slug: string;
+            title: string;
             release_year: number;
             duration_minutes: number;
             poster_url: string;
@@ -66,7 +78,6 @@ export declare class MovieAdminController {
             subscription_type: import(".prisma/client").$Enums.Subscription_types;
             view_count: number;
             created_by: string;
-            created_at: Date;
         };
     }>;
     deleteMovie(id: string): Promise<{

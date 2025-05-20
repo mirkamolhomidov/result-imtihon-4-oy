@@ -11,9 +11,11 @@ const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const auth_module_1 = require("./auth/auth.module");
 const category_module_1 = require("./category/category.module");
+const favorites_module_1 = require("./favorites/favorites.module");
 const movie_module_1 = require("./movies/movie.module");
 const prisma_module_1 = require("./prisma/prisma.module");
 const profile_module_1 = require("./profile/profile.module");
+const review_module_1 = require("./review/review.module");
 const subscription_module_1 = require("./subscription/subscription.module");
 let AppModule = class AppModule {
 };
@@ -30,6 +32,8 @@ exports.AppModule = AppModule = __decorate([
             subscription_module_1.SubscriptionModule,
             category_module_1.CategoryModule,
             movie_module_1.MovieModel,
+            favorites_module_1.FavoritesModule,
+            review_module_1.ReviewModule,
         ],
     })
 ], AppModule);

@@ -19,7 +19,62 @@ let MovieService = class MovieService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    async getMovies() {
+    async getAll({ category, limit, page, search, subscription_type, }) {
+        const page1 = parseInt(page || '1');
+        const limit1 = parseInt(limit || '20');
+        const skip = (page1 - 1) * limit1;
+        const where = {};
+        if (search) {
+            where.title = { contains: search, mode: 'insensitive' };
+        }
+        if (subscription_type) {
+            where.subscriptionType = subscription_type.toUpperCase();
+        }
+        if (category) {
+            where.categories = {
+                some: {
+                    category: {
+                        name: { contains: category, mode: 'insensitive' },
+                    },
+                },
+            };
+        }
+        const [movies, total] = await Promise.all([
+            this.prisma.movies.findMany({
+                where,
+                skip,
+                take: limit1,
+                include: {
+                    Movie_categories: {
+                        include: { category: true },
+                    },
+                },
+            }),
+            this.prisma.movies.count({ where }),
+        ]);
+        return {
+            success: true,
+            data: {
+                movies: movies.map((movie) => ({
+                    id: movie.id,
+                    title: movie.title,
+                    slug: movie.slug,
+                    poster_url: movie.poster_url,
+                    release_year: movie.release_year,
+                    rating: movie.rating,
+                    subscription_type: movie.subscription_type.toLowerCase(),
+                    categories: movie.Movie_categories.map((c) => c.category.name),
+                })),
+                pagination: {
+                    total,
+                    page1,
+                    limit1,
+                    pages: Math.ceil(total / limit1),
+                },
+            },
+        };
+    }
+    async getMoviesAdmin() {
         const movies = await this.prisma.movies.findMany();
         const total = movies.length;
         return { movies, total };
@@ -54,6 +109,27 @@ let MovieService = class MovieService {
                 include: { Movie_categories: true },
             });
             return { success: true, data: movie };
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(`Xatolik: ${error.message}`);
+        }
+    }
+    async addMovieFile(movieId, fileName, dto) {
+        try {
+            const movie = await this.prisma.movies.findUnique({
+                where: { id: movieId },
+            });
+            if (!movie)
+                throw new common_1.NotFoundException('Kino topilmadi');
+            const createdFile = await this.prisma.movie_files.create({
+                data: {
+                    movie_id: movieId,
+                    file_url: fileName,
+                    quality: dto.quality,
+                    language: dto.language,
+                },
+            });
+            return { success: true, data: createdFile };
         }
         catch (error) {
             throw new common_1.InternalServerErrorException(`Xatolik: ${error.message}`);
