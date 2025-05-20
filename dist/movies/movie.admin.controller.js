@@ -57,8 +57,8 @@ __decorate([
         storage: (0, multer_1.diskStorage)({
             destination: './uploads',
             filename: (req, file, cb) => {
-                const ext = file.originalname.split('.').pop();
-                const uniqueName = (0, uuid_1.v4)() + '.' + ext;
+                const ext = (0, path_1.extname)(file.originalname);
+                const uniqueName = (0, uuid_1.v4)() + ext;
                 cb(null, uniqueName);
             },
         }),
@@ -77,7 +77,7 @@ __decorate([
             destination: './uploads/movies',
             filename: (req, file, cb) => {
                 const ext = (0, path_1.extname)(file.originalname);
-                const name = `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
+                const name = (0, uuid_1.v4)() + ext;
                 cb(null, name);
             },
         }),

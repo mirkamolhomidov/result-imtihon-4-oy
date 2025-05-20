@@ -39,8 +39,8 @@ export class MovieAdminController {
       storage: diskStorage({
         destination: './uploads',
         filename: (req, file, cb) => {
-          const ext = file.originalname.split('.').pop();
-          const uniqueName = uuid() + '.' + ext;
+          const ext = extname(file.originalname);
+          const uniqueName = uuid() + ext;
           cb(null, uniqueName);
         },
       }),
@@ -66,7 +66,7 @@ export class MovieAdminController {
         destination: './uploads/movies',
         filename: (req, file, cb) => {
           const ext = extname(file.originalname);
-          const name = `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
+          const name = uuid() + ext;
           cb(null, name);
         },
       }),

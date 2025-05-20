@@ -161,12 +161,11 @@ enum MovieQuality {
 
 model Movie_files {
   id       String       @id @default(uuid()) @db.Uuid
-  movie_id String       @unique @db.Uuid
+  movie_id String       @db.Uuid
   file_url String
   quality  MovieQuality
   language String       @default("uz") @db.VarChar(20)
-  Movies   Movies?      @relation(fields: [moviesId], references: [id])
-  moviesId String?      @db.Uuid
+  Movies   Movies?      @relation(fields: [movie_id], references: [id])
 
   @@map("moviefiles")
 }

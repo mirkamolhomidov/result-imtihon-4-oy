@@ -21,10 +21,11 @@ let MovieController = class MovieController {
     constructor(movieService) {
         this.movieService = movieService;
     }
-    getAll(queries) {
-        return this.movieService.getAll(queries);
+    async getAll(queries) {
+        return await this.movieService.getAll(queries);
     }
     getBySlug(slug) {
+        return this.movieService.getOneMovie(slug);
     }
 };
 exports.MovieController = MovieController;
@@ -33,10 +34,10 @@ __decorate([
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [movie_dto_1.FilterMoviesDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], MovieController.prototype, "getAll", null);
 __decorate([
-    (0, common_1.Get)(':slug'),
+    (0, common_1.Get)('/:slug'),
     __param(0, (0, common_1.Param)('slug')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

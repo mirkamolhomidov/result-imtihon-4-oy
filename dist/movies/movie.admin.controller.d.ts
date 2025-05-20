@@ -54,7 +54,6 @@ export declare class MovieAdminController {
             quality: import(".prisma/client").$Enums.MovieQuality;
             language: string;
             file_url: string;
-            moviesId: string | null;
         };
     }>;
     updateMovieController(id: string, updateMovieDto: UpdateMovieDto): Promise<{

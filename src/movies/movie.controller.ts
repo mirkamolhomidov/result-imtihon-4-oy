@@ -5,13 +5,12 @@ import { MovieService } from './movie.service';
 @Controller('movies')
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
-
   @Get()
-  getAll(@Query() queries: FilterMoviesDto) {
-    return this.movieService.getAll(queries);
+  async getAll(@Query() queries: FilterMoviesDto) {
+    return await this.movieService.getAll(queries);
   }
-  @Get(':slug')
+  @Get('/:slug')
   getBySlug(@Param('slug') slug: string) {
-    // return this.movieService.getOneMovie(slug);
+    return this.movieService.getOneMovie(slug);
   }
 }

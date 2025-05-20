@@ -25,5 +25,3 @@ import { SubscriptionModule } from './subscription/subscription.module';
   ],
 })
 export class AppModule {}
-// 1335865d-6825-41fd-839d-3356b75b619b
-// be29a6da-c2b4-4b34-88d4-319e21a3eca2

@@ -9,13 +9,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MovieModel = void 0;
 const common_1 = require("@nestjs/common");
 const movie_admin_controller_1 = require("./movie.admin.controller");
+const movie_controller_1 = require("./movie.controller");
 const movie_service_1 = require("./movie.service");
 let MovieModel = class MovieModel {
 };
 exports.MovieModel = MovieModel;
 exports.MovieModel = MovieModel = __decorate([
     (0, common_1.Module)({
-        controllers: [movie_admin_controller_1.MovieAdminController],
+        controllers: [movie_admin_controller_1.MovieAdminController, movie_controller_1.MovieController],
         providers: [movie_service_1.MovieService],
     })
 ], MovieModel);

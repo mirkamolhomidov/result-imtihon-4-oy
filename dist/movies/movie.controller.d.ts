@@ -24,5 +24,29 @@ export declare class MovieController {
             };
         };
     }>;
-    getBySlug(slug: string): void;
+    getBySlug(slug: string): Promise<{
+        success: boolean;
+        data: {
+            id: string;
+            title: string;
+            slug: string;
+            description: string;
+            release_year: number;
+            duration_minutes: number;
+            poster_url: string;
+            rating: import("@prisma/client/runtime/library").Decimal;
+            subscription_type: string;
+            view_count: number;
+            is_favorite: boolean;
+            categories: string[];
+            files: {
+                quality: import(".prisma/client").$Enums.MovieQuality;
+                language: string;
+            }[];
+            reviews: {
+                average_rating: number;
+                count: number;
+            };
+        };
+    }>;
 }

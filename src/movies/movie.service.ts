@@ -83,49 +83,48 @@ export class MovieService {
       },
     };
   }
-  // async getOneMovie(slug: string) {
-  //   const movie = await this.prisma.movies.findUnique({
-  //     where: { slug },
-  //     include: {
-  //       Movie_files: true,
-  //       Movie_categories: { include: { category: true } },
-  //       Reviews: true,
-  //     },
-  //   });
+  async getOneMovie(slug: string) {
+    const movie = await this.prisma.movies.findUnique({
+      where: { slug },
+      include: {
+        Movie_files: true,
+        Movie_categories: { include: { category: true } },
+        Reviews: true,
+      },
+    });
 
-  //   if (!movie) throw new NotFoundException('Kino topilmadi');
+    if (!movie) throw new NotFoundException('Kino topilmadi');
 
-  //   const avgRating =
-  //     movie.Reviews.reduce((acc, r) => acc + r.rating, 0) /
-  //     (movie.Reviews.length || 1);
+    const avgRating =
+      movie.Reviews.reduce((acc, r) => acc + r.rating, 0) /
+      (movie.Reviews.length || 1);
 
-  //   return {
-  //     success: true,
-  //     data: {
-  //       id: movie.id,
-  //       title: movie.title,
-  //       slug: movie.slug,
-  //       description: movie.description,
-  //       release_year: movie.release_year,
-  //       duration_minutes: movie.duration_minutes,
-  //       poster_url: movie.poster_url,
-  //       rating: movie.rating,
-  //       subscription_type: movie.subscription_type.toLowerCase(),
-  //       view_count: movie.view_count,
-  //       is_favorite: false,
-  //       categories: movie.Movie_categories.map((c) => c.category.name),
-  //       files: movie.Movie_files.map((f) => ({
-  //         quality: f.quality,
-  //         language: f.language,
-  //         size_mb: f.size_mb,
-  //       })),
-  //       reviews: {
-  //         average_rating: Number(avgRating.toFixed(1)),
-  //         count: movie.Reviews.length,
-  //       },
-  //     },
-  //   };
-  // }
+    return {
+      success: true,
+      data: {
+        id: movie.id,
+        title: movie.title,
+        slug: movie.slug,
+        description: movie.description,
+        release_year: movie.release_year,
+        duration_minutes: movie.duration_minutes,
+        poster_url: movie.poster_url,
+        rating: movie.rating,
+        subscription_type: movie.subscription_type.toLowerCase(),
+        view_count: movie.view_count,
+        is_favorite: false,
+        categories: movie.Movie_categories.map((c) => c.category.name),
+        files: movie.Movie_files.map((f) => ({
+          quality: f.quality,
+          language: f.language,
+        })),
+        reviews: {
+          average_rating: Number(avgRating.toFixed(1)),
+          count: movie.Reviews.length,
+        },
+      },
+    };
+  }
 
   async getMoviesAdmin() {
     const movies = await this.prisma.movies.findMany();
