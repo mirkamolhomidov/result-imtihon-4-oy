@@ -10,6 +10,8 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const auth_module_1 = require("./auth/auth.module");
+const category_module_1 = require("./category/category.module");
+const movie_module_1 = require("./movies/movie.module");
 const prisma_module_1 = require("./prisma/prisma.module");
 const profile_module_1 = require("./profile/profile.module");
 const subscription_module_1 = require("./subscription/subscription.module");
@@ -26,6 +28,8 @@ exports.AppModule = AppModule = __decorate([
             prisma_module_1.PrismaModule,
             profile_module_1.ProfileModule,
             subscription_module_1.SubscriptionModule,
+            category_module_1.CategoryModule,
+            movie_module_1.MovieModel,
         ],
     })
 ], AppModule);

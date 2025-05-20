@@ -129,7 +129,7 @@ model Movies {
   rating            Decimal            @db.Decimal(3, 2)
   subscription_type Subscription_types @default(free)
   view_count        Int                @default(0)
-  created_by        String             @unique
+  created_by        String
   created_at        DateTime           @default(now())
   Movie_categories  Movie_categories[]
   Favorites         Favorites[]
@@ -141,8 +141,8 @@ model Movies {
 
 model Movie_categories {
   id          String     @id @default(uuid()) @db.Uuid
-  movie_id    String     @unique @db.Uuid
-  category_id String     @unique @db.Uuid
+  movie_id    String     @db.Uuid
+  category_id String     @db.Uuid
   movie       Movies     @relation(fields: [movie_id], references: [id])
   category    Categories @relation(fields: [category_id], references: [id])
 

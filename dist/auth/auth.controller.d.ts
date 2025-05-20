@@ -25,6 +25,11 @@ export declare class AuthController {
             password_hash: string;
             role: import(".prisma/client").$Enums.Roles;
         };
+        plan: {
+            id: string;
+            name: string;
+            duration_days: number;
+        };
     }>;
     logout(res: Response): Promise<{
         success: boolean;

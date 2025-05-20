@@ -28,7 +28,7 @@ export class AuthController {
     @Body() loginDto: LoginDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { access_token, refresh_token, UserSubscriptions, ...data } =
+    const { access_token, refresh_token, plan, ...data } =
       await this.authService.login(loginDto);
     res.cookie('access_token', access_token, {
       httpOnly: true,
@@ -40,7 +40,12 @@ export class AuthController {
       sameSite: 'lax',
       maxAge: 1000 * 240 * 60,
     });
-    return { success: true, message: 'Login successfull', data };
+    return {
+      success: true,
+      message: 'Login successfull',
+      data,
+      plan,
+    };
   }
   @Post('logout')
   async logout(@Res({ passthrough: true }) res: Response) {

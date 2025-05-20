@@ -6,25 +6,25 @@ export declare class ProfileService {
     getProfile(id: string): Promise<{
         id: string;
         user_id: string;
+        created_at: Date;
         full_name: string;
         phone: string;
         country: string;
-        created_at: Date;
     } | null>;
     createProfile(user_id: string, { full_name, phone, country }: CreateDto): Promise<{
         id: string;
         user_id: string;
+        created_at: Date;
         full_name: string;
         phone: string;
         country: string;
-        created_at: Date;
     }>;
     updateProfile(user_id: string, { full_name, phone, country }: UpdateDto): Promise<{
         id: string;
         user_id: string;
+        created_at: Date;
         full_name: string;
         phone: string;
         country: string;
-        created_at: Date;
     }>;
 }

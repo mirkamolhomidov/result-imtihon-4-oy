@@ -48,7 +48,13 @@ let AuthService = class AuthService {
         try {
             const checkUser = await this.prisma.users.findFirst({
                 where: { email: loginDto.email },
-                include: { UserSubscriptions: { include: { plan: true } } },
+                include: {
+                    UserSubscriptions: {
+                        include: {
+                            plan: { select: { id: true, name: true, duration_days: true } },
+                        },
+                    },
+                },
             });
             if (!checkUser)
                 throw new common_1.UnauthorizedException('Email or password invalid');
@@ -66,7 +72,8 @@ let AuthService = class AuthService {
                 expiresIn: '4h',
             });
             const { UserSubscriptions, ...data } = checkUser;
-            return { ...data, UserSubscriptions, access_token, refresh_token };
+            const [{ plan }] = UserSubscriptions;
+            return { ...data, plan, access_token, refresh_token };
         }
         catch (error) {
             throw new common_1.InternalServerErrorException(`Xatolik: ${error.message}`);

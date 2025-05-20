@@ -13,25 +13,11 @@ export declare class AuthService {
         role: import(".prisma/client").$Enums.Roles;
     }>;
     login(loginDto: LoginDto): Promise<{
-        UserSubscriptions: ({
-            plan: {
-                id: string;
-                name: string;
-                price: import("@prisma/client/runtime/library").Decimal;
-                duration_days: number;
-                features: import("@prisma/client/runtime/library").JsonValue;
-                is_active: boolean;
-            };
-        } & {
+        plan: {
             id: string;
-            user_id: string;
-            plan_id: string;
-            start_date: Date;
-            end_date: Date;
-            status: import(".prisma/client").$Enums.UserSubStatus;
-            auto_renew: boolean;
-            created_at: Date;
-        })[];
+            name: string;
+            duration_days: number;
+        };
         access_token: string;
         refresh_token: string;
         username: string;

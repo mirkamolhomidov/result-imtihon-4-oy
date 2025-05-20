@@ -27,10 +27,10 @@ export declare class SubscriptionService {
             id: string;
             status: import(".prisma/client").$Enums.PaymentStatus;
             created_at: Date;
-            user_subscription_id: string;
-            amount: import("@prisma/client/runtime/library").Decimal;
             payment_method: import(".prisma/client").$Enums.Payment_method;
             payment_details: import("@prisma/client/runtime/library").JsonValue;
+            user_subscription_id: string;
+            amount: import("@prisma/client/runtime/library").Decimal;
             external_transaction_id: string;
         };
     }>;

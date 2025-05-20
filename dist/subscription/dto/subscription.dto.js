@@ -77,8 +77,8 @@ __decorate([
     __metadata("design:type", String)
 ], PurchaseDto.prototype, "plan_id", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsEnum)(client_1.Payment_method),
     __metadata("design:type", String)
 ], PurchaseDto.prototype, "payment_method", void 0);
 __decorate([

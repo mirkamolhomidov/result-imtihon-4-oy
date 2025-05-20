@@ -3,6 +3,7 @@ import {
   IsArray,
   IsBoolean,
   IsDecimal,
+  IsEnum,
   IsJSON,
   IsNotEmpty,
   IsNumber,
@@ -48,8 +49,8 @@ export class PurchaseDto {
   @IsNotEmpty()
   plan_id: string;
 
-  @IsString()
   @IsNotEmpty()
+  @IsEnum(Payment_method)
   payment_method: Payment_method;
 
   @IsBoolean()

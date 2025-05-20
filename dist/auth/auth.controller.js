@@ -31,7 +31,7 @@ let AuthController = class AuthController {
         };
     }
     async loginController(loginDto, res) {
-        const { access_token, refresh_token, UserSubscriptions, ...data } = await this.authService.login(loginDto);
+        const { access_token, refresh_token, plan, ...data } = await this.authService.login(loginDto);
         res.cookie('access_token', access_token, {
             httpOnly: true,
             sameSite: 'lax',
@@ -42,7 +42,12 @@ let AuthController = class AuthController {
             sameSite: 'lax',
             maxAge: 1000 * 240 * 60,
         });
-        return { success: true, message: 'Login successfull', data };
+        return {
+            success: true,
+            message: 'Login successfull',
+            data,
+            plan,
+        };
     }
     async logout(res) {
         try {

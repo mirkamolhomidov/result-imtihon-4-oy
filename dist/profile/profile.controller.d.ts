@@ -8,10 +8,10 @@ export declare class ProfileController {
         data: {
             id: string;
             user_id: string;
+            created_at: Date;
             full_name: string;
             phone: string;
             country: string;
-            created_at: Date;
         } | null;
     }>;
     createProfileController(req: any, createDto: CreateDto): Promise<{
@@ -20,10 +20,10 @@ export declare class ProfileController {
         data: {
             id: string;
             user_id: string;
+            created_at: Date;
             full_name: string;
             phone: string;
             country: string;
-            created_at: Date;
         };
     }>;
     updateProfileController(req: any, updateDto: UpdateDto): Promise<{
@@ -32,10 +32,10 @@ export declare class ProfileController {
         data: {
             id: string;
             user_id: string;
+            created_at: Date;
             full_name: string;
             phone: string;
             country: string;
-            created_at: Date;
         };
     }>;
 }
