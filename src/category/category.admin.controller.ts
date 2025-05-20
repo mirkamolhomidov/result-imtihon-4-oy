@@ -1,7 +1,16 @@
-import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import { RoleGuard } from 'src/common/guards/roles.decorator';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/category.dto';
 
+@UseGuards(RoleGuard('admin'))
 @Controller('admin/categories')
 export class CategoryController {
   constructor(private categoryService: CategoryService) {}

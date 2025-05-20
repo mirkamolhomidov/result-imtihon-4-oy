@@ -16,6 +16,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { JwtAuthGuard } from 'src/common/guards/auth.guard';
+import { RoleGuard } from 'src/common/guards/roles.decorator';
 import { v4 as uuid } from 'uuid';
 import {
   CreateMovieDto,
@@ -24,7 +25,7 @@ import {
 } from './dto/movie.dto';
 import { MovieService } from './movie.service';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RoleGuard('admin'))
 @Controller('admin/movies')
 export class MovieAdminController {
   constructor(private movieService: MovieService) {}

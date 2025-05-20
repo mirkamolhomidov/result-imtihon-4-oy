@@ -8,10 +8,11 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/common/guards/auth.guard';
+import { RoleGuard } from 'src/common/guards/roles.decorator';
 import { CreatePlanDto, UpdatePlanDto } from './dto/subscription.dto';
 import { SubscriptionService } from './subscription.service';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RoleGuard('admin'))
 @Controller('admin/subscription/plans')
 export class AdminSubscriptionController {
   constructor(private subscriptionService: SubscriptionService) {}
