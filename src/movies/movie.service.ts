@@ -60,6 +60,7 @@ export class MovieService {
         where: { id },
         data: {
           title: updateMovieDto.title,
+          slug: await this.generateShortUuid(updateMovieDto.title),
           description: updateMovieDto.description,
           subscription_type: updateMovieDto.subscription_type,
           Movie_categories: {
